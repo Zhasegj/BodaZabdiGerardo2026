@@ -10,15 +10,15 @@ import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motio
 
 const photos = [
   {
-    url: "/pictures/imgmeta.jpg",
+    url: "/pictures/img1.jpeg",
     caption: "Un amor que florece cada día",
   },
   {
-    url: "/pictures/img2.jpg",
+    url: "/pictures/img2.1.jpg",
     caption: "Juntos para siempre",
   },
   {
-    url: "/pictures/img3.jpg",
+    url: "/pictures/img3.1.jpg",
     caption: "El inicio de nuestra historia",
   },
 ];
