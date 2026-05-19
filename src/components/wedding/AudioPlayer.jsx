@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AUDIO_SRC = "/audio/cancion.mp3";
@@ -9,20 +9,23 @@ export default function AudioPlayer({ forcePlay = false }) {
   const [ready, setReady]     = useState(false);
   const [visible, setVisible] = useState(true);
 
+  const doPlay = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    try {
+      await audio.play();
+      setPlaying(true);
+    } catch {
+      // Silently fail — user still has the floating button
+    }
+  }, []);
+
   // Respond to forcePlay from parent (SealOverlay click)
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio || !forcePlay || playing) return;
 
     audio.volume = 0.5;
-    const doPlay = async () => {
-      try {
-        await audio.play();
-        setPlaying(true);
-      } catch {
-        // Silently fail — user still has the floating button
-      }
-    };
 
     if (audio.readyState >= 2) {
       doPlay();
@@ -31,7 +34,7 @@ export default function AudioPlayer({ forcePlay = false }) {
     }
 
     return () => audio.removeEventListener("canplay", doPlay);
-  }, [forcePlay]);
+  }, [forcePlay, doPlay]);
 
   const toggle = () => {
     const audio = audioRef.current;
