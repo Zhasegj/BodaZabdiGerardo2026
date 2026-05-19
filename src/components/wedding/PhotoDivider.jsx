@@ -81,11 +81,17 @@ export default function PhotoDivider({ index = 0 }) {
         style={{ opacity: captionOp, y: captionY }}
       >
         <div className="flex items-center gap-3 mb-3">
-          <div className="h-px w-10" style={{ background: "rgba(106,191,191,0.85)" }} />
-          <span className="font-cormorant text-[10px] tracking-[0.28em] uppercase whitespace-nowrap" style={{ color: "#6ABFBF" }}>
+          <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.7)" }} />
+          <span
+            className="font-cormorant text-[11px] tracking-[0.28em] uppercase whitespace-nowrap font-semibold"
+            style={{
+              color: "#ffffff",
+              textShadow: "0 1px 8px rgba(26,58,74,0.8)",
+            }}
+          >
             Zabdi &amp; Gerardo
           </span>
-          <div className="h-px w-10" style={{ background: "rgba(106,191,191,0.85)" }} />
+          <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.7)" }} />
         </div>
 
         <p
