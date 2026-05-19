@@ -1,44 +1,37 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ─── CONFIGURA AQUÍ ───────────────────────────────────────────────
-const AUDIO_SRC = "/audio/cancion.mp3"; // ← pon tu archivo en /public/audio/
-// Si prefieres URL externa, cambia por: "https://tu-url.com/cancion.mp3"
-// ──────────────────────────────────────────────────────────────────
+const AUDIO_SRC = "/audio/cancion.mp3";
 
-export default function AudioPlayer() {
+export default function AudioPlayer({ forcePlay = false }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady]     = useState(false);
-  const [visible, setVisible] = useState(true); // puede ocultarse
+  const [visible, setVisible] = useState(true);
 
-  // Intenta autoplay al montar — los navegadores lo bloquean sin interacción previa,
-  // por eso también ofrecemos el botón como fallback
+  // Respond to forcePlay from parent (SealOverlay click)
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !forcePlay || playing) return;
 
     audio.volume = 0.5;
-
-    const tryAutoplay = async () => {
+    const doPlay = async () => {
       try {
         await audio.play();
         setPlaying(true);
       } catch {
-        // Autoplay bloqueado (normal en móvil) — el usuario verá el botón
-        setPlaying(false);
+        // Silently fail — user still has the floating button
       }
     };
 
-    // Espera a que el audio esté listo antes de intentar reproducir
     if (audio.readyState >= 2) {
-      tryAutoplay();
+      doPlay();
     } else {
-      audio.addEventListener("canplay", tryAutoplay, { once: true });
+      audio.addEventListener("canplay", doPlay, { once: true });
     }
 
-    return () => audio.removeEventListener("canplay", tryAutoplay);
-  }, []);
+    return () => audio.removeEventListener("canplay", doPlay);
+  }, [forcePlay]);
 
   const toggle = () => {
     const audio = audioRef.current;
