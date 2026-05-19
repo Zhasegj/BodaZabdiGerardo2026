@@ -40,10 +40,9 @@ function GoldOrnament() {
 }
 
 /* ── Monograma de esquina con glow ── */
-function Monogram({ letter, flip = false }) {
+function Monogram({ letter }) {
   return (
-    <div className={`relative select-none ${flip ? "scale-x-[-1]" : ""}`}>
-      {/* Glow suave detrás */}
+    <div className="relative select-none">
       <div className="absolute inset-0 blur-2xl" style={{
         background: "radial-gradient(ellipse at center, rgba(201,168,76,0.18) 0%, transparent 70%)",
       }} />
@@ -53,7 +52,7 @@ function Monogram({ letter, flip = false }) {
           fontSize: "clamp(5rem, 12vw, 9rem)",
           color: "transparent",
           WebkitTextStroke: "1.5px #C9A84C",
-          opacity: 0.28,          // subido de 0.15 → 0.28
+          opacity: 0.28,
           display: "block",
           lineHeight: 1,
         }}
@@ -204,24 +203,26 @@ export default function HeroSection() {
       <BackgroundMesh />
       <BeachWaves />
 
-      {/* Monogramas en esquinas superiores — más visibles */}
+      {/* Monograma Z – esquina superior izquierda */}
       <motion.div
         className="absolute top-0 left-0 pointer-events-none"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, delay: 0.3 }}
-        style={{ transform: "translate(-8%, -8%)" }}
+        style={{ transform: "translate(-12%, -10%)" }}
       >
         <Monogram letter="Z" />
       </motion.div>
+
+      {/* Monograma G – esquina superior derecha */}
       <motion.div
         className="absolute top-0 right-0 pointer-events-none"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1.2, delay: 0.3 }}
-        style={{ transform: "translate(8%, -8%)" }}
+        style={{ transform: "translate(12%, -10%)" }}
       >
-        <Monogram letter="G" flip />
+        <Monogram letter="G" />
       </motion.div>
 
       {/* & grande – fondo decorativo central, muy sutil */}

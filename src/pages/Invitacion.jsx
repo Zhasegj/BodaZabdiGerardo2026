@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+
 import HeroSection from "@/components/wedding/HeroSection";
 import ProgramaSection from "@/components/wedding/ProgramaSection";
 import RSVPSection from "@/components/wedding/RSVPSection";
@@ -5,13 +8,10 @@ import FooterSection from "@/components/wedding/FooterSection";
 import PhotoDivider from "@/components/wedding/PhotoDivider";
 import FloralDivider from "@/components/wedding/FloralDivider";
 
-// Olas animadas de fondo
-// IMPORTANTE: usar fill/stroke inline, NO clases Tailwind personalizadas
-// (fill-wave1, fill-wave2, etc. no existen en el config y el browser las renderiza como negro)
+// ── Olas de fondo fijas (sin colores rotos) ──
 function BackgroundWaves() {
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Ola 1 – turquesa caribeño muy suave */}
       <svg className="absolute top-0 left-0 w-full h-64" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="wave1" x1="0" x2="0" y1="0" y2="1">
@@ -25,8 +25,6 @@ function BackgroundWaves() {
           d="M0,128 L50,110 L100,105 L150,115 L200,110 L250,120 L300,110 L350,95 L400,98 L450,88 L500,95 L550,85 L600,90 L650,85 L700,95 L750,88 L800,98 L850,90 L900,105 L950,100 L1000,115 L1050,110 L1100,120 L1150,115 L1200,128 L1250,120 L1300,135 L1350,125 L1400,140 L1450,130 L1500,145 L1550,140 L1600,150 L1650,145 L1700,155 L1750,150 L1800,160 L1850,155 L1900,165 L1950,160 L2000,170 L2000,128 L0,128 Z"
         />
       </svg>
-
-      {/* Ola 2 – arena cálida muy suave */}
       <svg className="absolute top-64 left-0 w-full h-64" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="wave2" x1="0" x2="0" y1="0" y2="1">
@@ -44,19 +42,79 @@ function BackgroundWaves() {
   );
 }
 
+// ── Wrapper que aplica animación de entrada Y salida a cada sección ──
+// offset: cuánto se desplaza en Y al entrar/salir (en px)
+function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Entrada: 0→0.15 del recorrido visible
+  // Salida:  0.85→1  del recorrido visible (solo si fadeOut=true)
+  const opacity = useTransform(
+    scrollYProgress,
+    fadeOut ? [0, 0.12, 0.88, 1] : [0, 0.12, 1, 1],
+    fadeOut ? [0,    1,    1,  0] : [0,    1,  1, 1],
+  );
+  const y = useTransform(
+    scrollYProgress,
+    fadeOut ? [0, 0.12, 0.88, 1] : [0, 0.12, 1, 1],
+    fadeOut
+      ? [offsetY, 0, 0, -offsetY * 0.6]
+      : [offsetY, 0, 0,              0],
+  );
+
+  return (
+    <motion.div ref={ref} style={{ opacity, y, willChange: "opacity, transform" }}>
+      {children}
+    </motion.div>
+  );
+}
+
 export default function Invitacion() {
   return (
     <div className="font-sans relative">
       <BackgroundWaves />
-      <HeroSection />
-      <PhotoDivider index={0} />
-      <FloralDivider />
-      <ProgramaSection />
-      <PhotoDivider index={1} />
-      <FloralDivider />
-      <RSVPSection />
-      <PhotoDivider index={2} />
-      <FooterSection />
+
+      {/* Hero: solo animación de salida (la entrada ya la hace con animate={}) */}
+      <AnimatedSection offsetY={0} fadeOut={true}>
+        <HeroSection />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={20}>
+        <PhotoDivider index={0} />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={16}>
+        <FloralDivider />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={28}>
+        <ProgramaSection />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={20}>
+        <PhotoDivider index={1} />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={16}>
+        <FloralDivider />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={28}>
+        <RSVPSection />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={20}>
+        <PhotoDivider index={2} />
+      </AnimatedSection>
+
+      {/* Footer: sin animación de salida (es la última sección) */}
+      <AnimatedSection offsetY={20} fadeOut={false}>
+        <FooterSection />
+      </AnimatedSection>
     </div>
   );
 }
