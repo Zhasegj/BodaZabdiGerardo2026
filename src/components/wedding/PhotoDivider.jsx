@@ -14,11 +14,11 @@ const photos = [
     caption: "Un amor que florece cada día",
   },
   {
-    url: "/pictures/img2.1.jpg",
+    url: "/pictures/img21.jpg",
     caption: "Juntos para siempre",
   },
   {
-    url: "/pictures/img3.1.jpg",
+    url: "/pictures/img31.jpg",
     caption: "El inicio de nuestra historia",
   },
 ];
