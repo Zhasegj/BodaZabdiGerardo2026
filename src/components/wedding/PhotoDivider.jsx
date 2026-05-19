@@ -18,7 +18,7 @@ const photos = [
     caption: "Juntos para siempre",
   },
   {
-    url: "/pictures/img31.jpg",
+    url: "/pictures/img32.jpg",
     caption: "El inicio de nuestra historia",
   },
 ];
@@ -66,7 +66,7 @@ export default function PhotoDivider({ index = 0, ratio = "1 / 1" }) {
         <img
           src={photo.url}
           alt="Zabdi & Gerardo"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover scale-[1.3]"
           loading={index === 0 ? "eager" : "lazy"}
           draggable={false}
           style={{ userSelect: "none", WebkitUserDrag: "none" }}
