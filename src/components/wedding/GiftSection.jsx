@@ -141,9 +141,8 @@ export default function GiftSection() {
                 Pero, para quienes insisten...
               </p>
               <p className="font-cormorant italic text-base mt-2 leading-relaxed" style={{ color: "#5A7A68" }}>
-                Hemos preparado <span style={{ color: "#C9A84C", fontStyle: "normal", fontWeight: 600 }}>sobres para efectivo</span> el día de la boda.
+                Hemos preparado <span style={{ color: "#C9A84C", fontStyle: "normal", fontWeight: 600 }}>sobres para efectivo</span> el día de la boda. 🌊
                 <br/>
-                Con eso nos ayudan a construir los sueños que tenemos juntos. 🌊
               </p>
             </div>
 
