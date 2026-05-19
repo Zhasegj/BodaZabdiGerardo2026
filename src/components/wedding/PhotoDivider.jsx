@@ -22,141 +22,136 @@ export default function PhotoDivider({ index = 0 }) {
   const photo = photos[index % photos.length];
   const ref = useRef(null);
 
-  // Scroll relativo al contenedor
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"], // cubre entrada Y salida del viewport
+    offset: ["start end", "end start"],
   });
 
-  // Parallax: la imagen se mueve más lento que el scroll → efecto de profundidad
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+  // Parallax suave en la imagen
+  const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
-  // Animaciones de ENTRADA (0→0.25) y SALIDA (0.75→1)
-  const captionY  = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [30,  0,  0, -30]);
-  const captionOp = useTransform(scrollYProgress, [0, 0.2, 0.75, 1], [0,  1,  1,   0]);
+  // Entrada y salida del bloque completo
+  const blockOp = useTransform(scrollYProgress, [0, 0.1, 0.85, 1], [0, 1, 1, 0]);
+  const blockY  = useTransform(scrollYProgress, [0, 0.1, 0.85, 1], [32, 0, 0, -20]);
 
-  // Overlay: se oscurece al entrar y al salir, más claro en el centro
-  const overlayOp = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0.75, 0.45, 0.35, 0.45, 0.75]);
-
-  // Cortina de reveal: entra desde los lados y se abre al centro
-  const curtainL  = useTransform(scrollYProgress, [0, 0.28], ["50%", "0%"]);
-  const curtainR  = useTransform(scrollYProgress, [0, 0.28], ["50%", "0%"]);
-  const curtainOp = useTransform(scrollYProgress, [0, 0.28, 0.35], [1, 1, 0]);
-
-  // Líneas decorativas: se expanden al entrar, se contraen al salir
-  const lineW  = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], ["0%", "100%", "100%", "0%"]);
+  // Caption: aparece un poco después que la imagen
+  const captionOp = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [0, 1, 1, 0]);
+  const captionY  = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [12, 0, 0, -8]);
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className="relative overflow-hidden"
-      style={{ height: "clamp(220px, 55vw, 360px)" }} // mobile-first: más pequeño en mobile
+      style={{ opacity: blockOp, y: blockY, willChange: "opacity, transform" }}
+      className="w-full"
     >
-
-      {/* ── Imagen con parallax ── */}
-      <motion.div
-        className="absolute inset-0 w-full"
-        style={{ y: imageY, scale: 1.18 }} // escala extra para que el parallax no deje huecos
-      >
-        <img
-          src={photo.url}
-          alt="Zabdi & Gerardo"
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-      </motion.div>
-
-      {/* ── Overlay animado ── */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          opacity: overlayOp,
-          background: "linear-gradient(to bottom, rgba(26,58,74,1) 0%, rgba(26,58,74,0.7) 50%, rgba(26,58,74,1) 100%)",
-        }}
-      />
-
-      {/* ── Shimmer turquesa lateral ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "linear-gradient(to right, rgba(58,155,155,0.12), transparent 40%, transparent 60%, rgba(58,155,155,0.12))" }}
-      />
-
-      {/* ── Cortinas de reveal (entran desde los extremos y se abren) ── */}
-      <motion.div
-        className="absolute top-0 bottom-0 left-0"
-        style={{
-          width: curtainL,
-          opacity: curtainOp,
-          background: "linear-gradient(to right, #FDF8EE, rgba(245,236,215,0.3))",
-        }}
-      />
-      <motion.div
-        className="absolute top-0 bottom-0 right-0"
-        style={{
-          width: curtainR,
-          opacity: curtainOp,
-          background: "linear-gradient(to left, #FDF8EE, rgba(245,236,215,0.3))",
-        }}
-      />
-
-      {/* ── Caption con entrada y salida ── */}
-      <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center px-6"
-        style={{ y: captionY, opacity: captionOp }}
-      >
-        {/* Línea decorativa superior */}
-        <div className="flex items-center gap-3 mb-3 w-full justify-center overflow-hidden">
-          <motion.div
-            style={{ width: lineW, maxWidth: 48 }}
-            className="h-px flex-shrink-0"
-            // inline, no transition prop needed — driven by scroll
-          >
-            <div className="h-full w-full" style={{ background: "#6ABFBF" }} />
-          </motion.div>
-          <span
-            className="font-cormorant tracking-[0.25em] text-[10px] uppercase whitespace-nowrap flex-shrink-0"
-            style={{ color: "#6ABFBF" }}
-          >
-            Zabdi &amp; Gerardo
-          </span>
-          <motion.div
-            style={{ width: lineW, maxWidth: 48 }}
-            className="h-px flex-shrink-0"
-          >
-            <div className="h-full w-full" style={{ background: "#6ABFBF" }} />
-          </motion.div>
-        </div>
-
-        {/* Frase principal */}
-        <p
-          className="font-vibes text-center drop-shadow-lg leading-tight"
+      {/* ── Contenedor estilo post social – centrado, max-width mobile ── */}
+      <div className="flex justify-center px-0 md:px-8 py-4" style={{ background: "#F5ECD7" }}>
+        <div
+          className="w-full overflow-hidden"
           style={{
-            color: "#F5ECD7",
-            fontSize: "clamp(1.8rem, 8vw, 3.5rem)", // mobile-first
+            // Mobile: ancho completo con relación 1:1 (cuadrado Instagram)
+            // Desktop: ancho fijo tipo post con relación 4:5
+            maxWidth: "min(100%, 500px)",
+            boxShadow: "0 4px 32px rgba(26,58,74,0.10)",
           }}
         >
-          {photo.caption}
-        </p>
+          {/* ── Cabecera estilo stories / post ── */}
+          <div
+            className="flex items-center gap-2.5 px-3 py-2.5"
+            style={{ background: "white", borderBottom: "1px solid rgba(58,155,155,0.12)" }}
+          >
+            {/* Avatar placeholder con iniciales */}
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+              style={{ background: "linear-gradient(135deg, #3A9B9B, #C9A84C)" }}
+            >
+              <span className="font-playfair text-white text-xs font-bold">Z&G</span>
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="font-cormorant font-semibold text-sm tracking-wide" style={{ color: "#1A3A4A" }}>
+                zabdi.y.gerardo
+              </span>
+              <span className="font-cormorant text-xs" style={{ color: "#5A7A68" }}>
+                Chuburna Puerto · Yucatán
+              </span>
+            </div>
+            {/* Punto decorativo dorado */}
+            <div className="ml-auto">
+              <svg viewBox="0 0 16 16" className="w-4 h-4">
+                <circle cx="8" cy="4"  r="1.5" fill="#C9A84C" fillOpacity="0.6"/>
+                <circle cx="8" cy="8"  r="1.5" fill="#C9A84C" fillOpacity="0.6"/>
+                <circle cx="8" cy="12" r="1.5" fill="#C9A84C" fillOpacity="0.6"/>
+              </svg>
+            </div>
+          </div>
 
-        {/* Ornamento inferior – pequeño diamante dorado */}
-        <div className="flex items-center gap-2 mt-3">
-          <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.6)" }} />
-          <svg viewBox="0 0 10 10" className="w-2 h-2">
-            <rect x="2" y="2" width="6" height="6" transform="rotate(45 5 5)" fill="none" stroke="#C9A84C" strokeWidth="1" strokeOpacity="0.7"/>
-          </svg>
-          <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.6)" }} />
+          {/* ── Imagen cuadrada 1:1 con parallax ── */}
+          <div
+            className="relative overflow-hidden w-full"
+            style={{ aspectRatio: "1 / 1" }}
+          >
+            <motion.img
+              src={photo.url}
+              alt="Zabdi & Gerardo"
+              className="absolute inset-0 w-full object-cover"
+              style={{ y: imageY, scale: 1.18, height: "100%" }}
+              loading="lazy"
+            />
+            {/* Viñeta muy sutil solo en los bordes — NO cubre la imagen */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                boxShadow: "inset 0 0 40px rgba(26,58,74,0.15)",
+              }}
+            />
+          </div>
+
+          {/* ── Footer tipo Instagram: likes + caption ── */}
+          <motion.div
+            style={{ opacity: captionOp, y: captionY }}
+            className="px-3 pt-2.5 pb-3"
+            // fondo blanco roto cálido
+            // background inline para que no quede blanco duro
+          >
+            {/* Likes / corazón decorativo */}
+            <div className="flex items-center gap-3 mb-2">
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+                <path
+                  d="M12 21C12 21 3 15.5 3 9.5C3 7 5 5 7.5 5C9.5 5 11 6 12 7.5C13 6 14.5 5 16.5 5C19 5 21 7 21 9.5C21 15.5 12 21 12 21Z"
+                  fill="#E8896A"
+                  fillOpacity="0.85"
+                />
+              </svg>
+              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+                <path
+                  d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"
+                  stroke="#3A9B9B"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {/* Separador */}
+              <div className="flex-1" />
+              {/* Fecha */}
+              <span className="font-cormorant text-xs tracking-widest" style={{ color: "#5A7A68" }}>
+                29 · 08 · 2026
+              </span>
+            </div>
+
+            {/* Caption */}
+            <p className="font-cormorant text-sm leading-snug" style={{ color: "#1A3A4A" }}>
+              <span className="font-semibold tracking-wide" style={{ color: "#3A9B9B" }}>zabdi.y.gerardo&nbsp;</span>
+              <span className="italic" style={{ color: "#5A7A68" }}>{photo.caption}</span>
+            </p>
+
+            {/* Hashtag decorativo */}
+            <p className="font-cormorant text-xs mt-1" style={{ color: "#3A9B9B", opacity: 0.7 }}>
+              #ZabdiYGerardo #BodaEnLaPlaya #Yucatán2026
+            </p>
+          </motion.div>
         </div>
-      </motion.div>
-
-      {/* ── Bordes de ola superior e inferior (transición suave con la sección) ── */}
-      <div
-        className="absolute top-0 left-0 right-0 h-6 pointer-events-none"
-        style={{ background: "linear-gradient(to bottom, #F5ECD7, transparent)" }}
-      />
-      <div
-        className="absolute bottom-0 left-0 right-0 h-6 pointer-events-none"
-        style={{ background: "linear-gradient(to top, #F5ECD7, transparent)" }}
-      />
-    </div>
+      </div>
+    </motion.div>
   );
 }
