@@ -58,11 +58,11 @@ export default function PhotoDivider({ index = 0 }) {
         }}
       />
 
-      {/* ── Overlay muy ligero — solo para que el caption sea legible ── */}
+      {/* ── Overlay con degradado en top y bottom ── */}
       <div
         className="absolute inset-0"
         style={{
-          background: "linear-gradient(to bottom, transparent 30%, rgba(26,58,74,0.45) 100%)",
+          background: "linear-gradient(to bottom, rgba(26,58,74,0.6) 0%, transparent 35%, transparent 65%, rgba(26,58,74,0.6) 100%)",
         }}
       />
 
