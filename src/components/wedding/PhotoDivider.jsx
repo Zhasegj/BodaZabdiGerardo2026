@@ -66,7 +66,7 @@ export default function PhotoDivider({ index = 0, ratio = "1 / 1" }) {
         <img
           src={photo.url}
           alt="Zabdi & Gerardo"
-          className="w-full h-full object-cover scale-[1.3]"
+          className="w-full h-full object-cover scale-[1.0]"
           loading={index === 0 ? "eager" : "lazy"}
           draggable={false}
           style={{ userSelect: "none", WebkitUserDrag: "none" }}
