@@ -129,7 +129,7 @@ export default function Invitacion() {
 
       {/* Sello entre secciones — h-0 no agrega espacio */}
       <div className="relative h-0 overflow-visible z-20">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-[55%]">
           <WaxSeal />
         </div>
       </div>
