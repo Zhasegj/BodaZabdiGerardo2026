@@ -9,6 +9,7 @@ import RSVPSection from "@/components/wedding/RSVPSection";
 import FooterSection from "@/components/wedding/FooterSection";
 import PhotoDivider from "@/components/wedding/PhotoDivider";
 import FloralDivider from "@/components/wedding/FloralDivider";
+import FallingLeaves from "@/components/wedding/FallingLeaves";
 
 // ── Olas de fondo fijas (sin colores rotos) ──
 function BackgroundWaves() {
@@ -84,6 +85,7 @@ export default function Invitacion() {
       <AudioPlayer forcePlay={isPlaying} showButton={overlayDone} />
       <SealOverlay onPlay={() => setIsPlaying(true)} onExitComplete={() => setOverlayDone(true)} />
       <BackgroundWaves />
+      {overlayDone && <FallingLeaves />}
 
       {/* Hero: solo animación de salida (la entrada ya la hace con animate={}) */}
       <AnimatedSection offsetY={0} fadeOut={true}>
