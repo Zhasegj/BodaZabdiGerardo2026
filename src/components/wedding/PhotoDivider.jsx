@@ -10,15 +10,15 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const photos = [
   {
-    url: "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=1200&q=80",
+    url: "/pictures/imgmeta.jpg",
     caption: "Un amor que florece cada día",
   },
   {
-    url: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=1200&q=80",
+    url: "/pictures/img2.jpg",
     caption: "Juntos para siempre",
   },
   {
-    url: "https://images.unsplash.com/photo-1591604021695-0c69b7c05981?w=1200&q=80",
+    url: "/pictures/img3.jpg",
     caption: "El inicio de nuestra historia",
   },
 ];
