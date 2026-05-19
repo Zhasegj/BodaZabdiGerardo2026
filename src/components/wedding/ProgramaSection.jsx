@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 
 // Paleta – sand:#F5ECD7  teal:#3A9B9B  tealLight:#6ABFBF  navy:#1A3A4A  gold:#C9A84C  blush:#E8896A  sage:#5A7A68
 
-const MAPS_URL = "https://www.google.com/maps/search/?api=1&query=5+78+14+14+Esquina%2C+Chuburna+Puerto%2C+97336+Chuburn%C3%A1%2C+Yuc.%2C+Mexico";
-const MAPS_EMBED = "https://maps.google.com/maps?q=5+78+14+14+Esquina%2C+Chuburna+Puerto%2C+97336+Chuburn%C3%A1%2C+Yuc.%2C+Mexico&output=embed";
+const MAPS_URL = "https://maps.app.goo.gl/FqAhRQBQcUz5SamVA?g_st=ic";
+const MAPS_EMBED = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3718.431180151508!2d-89.8187008!3d21.254393300000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f55e5fe2e82f7b7%3A0xa7df70622f90a391!2sArtist%20Beach%20House%20Sunset%20Haven!5e0!3m2!1sen!2smx!4v1779165217128!5m2!1sen!2smx";
 const LUGAR = "Chuburna Puerto, Yucatán";
 
 // Iconos SVG personalizados — más elegantes que emojis
