@@ -5,9 +5,10 @@ import { motion } from "framer-motion";
 export default function FooterSection() {
   return (
     <footer
-      className="text-white py-14 px-4 text-center relative overflow-hidden"
+      className="text-white pt-20 pb-14 px-4 text-center relative"
       style={{ background: "linear-gradient(to bottom, #1A3A4A, #142E3C)" }}
     >
+
       {/* Ola sutil de fondo */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
         <path

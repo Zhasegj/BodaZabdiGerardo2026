@@ -6,10 +6,12 @@ import SealOverlay from "@/components/wedding/SealOverlay";
 import HeroSection from "@/components/wedding/HeroSection";
 import ProgramaSection from "@/components/wedding/ProgramaSection";
 import RSVPSection from "@/components/wedding/RSVPSection";
+import GiftSection from "@/components/wedding/GiftSection";
 import FooterSection from "@/components/wedding/FooterSection";
 import PhotoDivider from "@/components/wedding/PhotoDivider";
 import FloralDivider from "@/components/wedding/FloralDivider";
 import FallingLeaves from "@/components/wedding/FallingLeaves";
+import WaxSeal from "@/components/wedding/WaxSeal";
 
 // ── Olas de fondo fijas (sin colores rotos) ──
 function BackgroundWaves() {
@@ -46,7 +48,6 @@ function BackgroundWaves() {
 }
 
 // ── Wrapper que aplica animación de entrada Y salida a cada sección ──
-// offset: cuánto se desplaza en Y al entrar/salir (en px)
 function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -54,8 +55,8 @@ function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
     offset: ["start end", "end start"],
   });
 
-  // Entrada: 0→0.15 del recorrido visible
-  // Salida:  0.85→1  del recorrido visible (solo si fadeOut=true)
+  // Entrada: sube desde abajo (0→0.12)
+  // Salida:  sube hacia arriba (0.88→1) — espejo exacto de la entrada
   const opacity = useTransform(
     scrollYProgress,
     fadeOut ? [0, 0.12, 0.88, 1] : [0, 0.12, 1, 1],
@@ -65,8 +66,8 @@ function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
     scrollYProgress,
     fadeOut ? [0, 0.12, 0.88, 1] : [0, 0.12, 1, 1],
     fadeOut
-      ? [offsetY, 0, 0, -offsetY * 0.6]
-      : [offsetY, 0, 0,              0],
+      ? [offsetY, 0, 0, -offsetY]   // entrada desde abajo, salida hacia arriba (simétrico)
+      : [offsetY, 0, 0,          0],
   );
 
   return (
@@ -90,13 +91,12 @@ export default function Invitacion() {
       <BackgroundWaves />
       {overlayDone && <FallingLeaves />}
 
-      {/* Hero: solo animación de salida (la entrada ya la hace con animate={}) */}
+      {/* Hero: animación solo de salida — la entrada la maneja su propio animate */}
       <AnimatedSection offsetY={0} fadeOut={true}>
         <HeroSection />
       </AnimatedSection>
 
-      {/* PhotoDivider sin AnimatedSection — background-attachment:fixed
-          se rompe si hay un ancestro con opacity/transform animado */}
+      {/* PhotoDivider fuera de AnimatedSection — el parallax se rompe con opacity/transform en ancestro */}
       <PhotoDivider index={0} />
 
       <AnimatedSection offsetY={16}>
@@ -109,13 +109,32 @@ export default function Invitacion() {
 
       <PhotoDivider index={1} />
 
+      <AnimatedSection offsetY={16}>
+        <FloralDivider />
+      </AnimatedSection>
+
       <AnimatedSection offsetY={28}>
         <RSVPSection />
       </AnimatedSection>
 
-      <PhotoDivider index={2} />
+      <PhotoDivider index={2} ratio="3 / 4" />
 
-      {/* Footer: sin animación de salida (es la última sección) */}
+      <AnimatedSection offsetY={16}>
+        <FloralDivider />
+      </AnimatedSection>
+
+      <AnimatedSection offsetY={28}>
+        <GiftSection />
+      </AnimatedSection>
+
+      {/* Sello entre secciones — h-0 no agrega espacio */}
+      <div className="relative h-0 overflow-visible z-10 flex justify-center">
+        <div className="-translate-y-1/2">
+          <WaxSeal />
+        </div>
+      </div>
+
+      {/* Footer: sin animación de salida — es el final de la página */}
       <AnimatedSection offsetY={20} fadeOut={false}>
         <FooterSection />
       </AnimatedSection>
