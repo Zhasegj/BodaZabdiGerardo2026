@@ -77,11 +77,12 @@ function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
 
 export default function Invitacion() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [overlayDone, setOverlayDone] = useState(false);
 
   return (
     <div className="font-sans relative">
-      <AudioPlayer forcePlay={isPlaying} />
-      <SealOverlay onPlay={() => setIsPlaying(true)} />
+      <AudioPlayer forcePlay={isPlaying} showButton={overlayDone} />
+      <SealOverlay onPlay={() => setIsPlaying(true)} onExitComplete={() => setOverlayDone(true)} />
       <BackgroundWaves />
 
       {/* Hero: solo animación de salida (la entrada ya la hace con animate={}) */}

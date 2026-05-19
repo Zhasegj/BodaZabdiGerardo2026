@@ -53,7 +53,7 @@ function SealHalf({ side, exitX, exitRotate }) {
   );
 }
 
-export default function SealOverlay({ onPlay }) {
+export default function SealOverlay({ onPlay, onExitComplete }) {
   const [sealed, setSealed] = useState(true);
 
   const handleClick = () => {
@@ -63,13 +63,14 @@ export default function SealOverlay({ onPlay }) {
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={onExitComplete}>
       {sealed && (
         <motion.div
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-center"
           style={{
             background: "rgba(26,58,74,0.65)",
             backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
           }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}

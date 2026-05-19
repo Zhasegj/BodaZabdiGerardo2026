@@ -3,11 +3,10 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const AUDIO_SRC = "/audio/cancion.mp3";
 
-export default function AudioPlayer({ forcePlay = false }) {
+export default function AudioPlayer({ forcePlay = false, showButton = true }) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady]     = useState(false);
-  const [visible, setVisible] = useState(true);
 
   const doPlay = useCallback(async () => {
     const audio = audioRef.current;
@@ -61,7 +60,7 @@ export default function AudioPlayer({ forcePlay = false }) {
 
       {/* Botón flotante — esquina inferior derecha */}
       <AnimatePresence>
-        {visible && (
+        {showButton && (
           <motion.div
             className="fixed bottom-6 right-5 z-50 flex flex-col items-end gap-2"
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
