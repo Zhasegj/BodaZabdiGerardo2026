@@ -92,18 +92,36 @@ export default function SealOverlay({ onPlay, onExitComplete }) {
           </div>
 
           {/* Text below seal */}
-          <p
-            className="font-cormorant text-lg sm:text-base tracking-[0.4em] uppercase mt-8 sm:mt-6"
-            style={{ color: "#F5ECD7" }}
+          <motion.div
+            className="flex flex-col items-center text-center mt-8 px-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Toca el botón para descubrir
-          </p>
-          <p
-            className="font-cormorant text-sm tracking-widest mt-1"
-            style={{ color: "#6ABFBF", opacity: 0.6 }}
-          >
-            Dale play a la música y comienza la experiencia
-          </p>
+            <p
+              className="font-vibes text-3xl mb-1"
+              style={{ color: "#F5ECD7" }}
+            >
+              Zabdi &amp; Gerardo
+            </p>
+            <p
+              className="font-cormorant text-sm tracking-[0.18em] uppercase"
+              style={{ color: "#F5ECD7", opacity: 0.85 }}
+            >
+              29 · 08 · 2026 · Yucatán
+            </p>
+            <div className="flex items-center gap-3 my-3">
+              <div className="h-px w-10" style={{ background: "rgba(201,168,76,0.5)" }} />
+              <div className="w-1.5 h-1.5 rounded-full" style={{ background: "rgba(201,168,76,0.5)" }} />
+              <div className="h-px w-10" style={{ background: "rgba(201,168,76,0.5)" }} />
+            </div>
+            <p
+              className="font-cormorant italic text-base"
+              style={{ color: "#6ABFBF" }}
+            >
+              Toca el sello para abrir tu invitación
+            </p>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -23,7 +23,7 @@ const photos = [
   },
 ];
 
-export default function PhotoDivider({ index = 0 }) {
+export default function PhotoDivider({ index = 0, ratio = "1 / 1" }) {
   const photo = photos[index % photos.length];
   const containerRef = useRef(null);
 
@@ -52,7 +52,7 @@ export default function PhotoDivider({ index = 0 }) {
     <div
       ref={containerRef}
       className="relative overflow-hidden w-full"
-      style={{ aspectRatio: "1 / 1", maxHeight: "min(100vw, 600px)" }}
+      style={{ aspectRatio: ratio, maxHeight: "min(100vw, 600px)" }}
     >
       {/* Imagen con parallax JS — funciona en iOS, Android y desktop */}
       <motion.div

@@ -44,7 +44,7 @@ export default function RSVPSection() {
 
   if (success) {
     return (
-      <section id="rsvp" className="py-16 px-4" style={{ background: "#FDF8EE" }}>
+      <section id="rsvp" className="py-16 px-4" style={{ background: "#F5ECD7" }}>
         <motion.div
           className="max-w-lg mx-auto text-center"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -72,7 +72,7 @@ export default function RSVPSection() {
   }
 
   return (
-    <section id="rsvp" className="py-16 px-4" style={{ background: "#FDF8EE" }}>
+    <section id="rsvp" className="py-16 px-4" style={{ background: "#F5ECD7" }}>
       <div className="max-w-lg mx-auto">
         {/* Header */}
         <motion.div
@@ -96,8 +96,8 @@ export default function RSVPSection() {
 
         {/* Form card */}
         <motion.div
-          className="p-8 bg-white relative"
-          style={{ border: "1px solid rgba(58,155,155,0.25)" }}
+          className="p-8 relative"
+          style={{ background: "#FDFAF5", border: "1px solid rgba(58,155,155,0.25)" }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
@@ -152,7 +152,7 @@ export default function RSVPSection() {
                       className="py-2.5 px-3 text-xs font-cormorant tracking-wide uppercase transition-all"
                       style={{
                         border: `1px solid ${selected ? "#C9A84C" : "rgba(201,168,76,0.4)"}`,
-                        background: selected ? "#C9A84C" : "white",
+                        background: selected ? "#C9A84C" : "#FDFAF5",
                         color: selected ? "white" : "#786045",
                       }}
                       whileHover={{ scale: 1.02 }}

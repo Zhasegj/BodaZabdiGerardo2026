@@ -128,8 +128,8 @@ export default function Invitacion() {
       </AnimatedSection>
 
       {/* Sello entre secciones — h-0 no agrega espacio */}
-      <div className="relative h-0 overflow-visible z-10 flex justify-center">
-        <div className="-translate-y-1/2">
+      <div className="relative h-0 overflow-visible z-20">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <WaxSeal />
         </div>
       </div>

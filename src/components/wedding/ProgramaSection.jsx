@@ -121,14 +121,27 @@ function TimelineItem({ item, index, isLast }) {
 
         {/* Card */}
         <motion.div
-          className="bg-white overflow-hidden"
+          className="overflow-hidden"
           style={{
-            border: "1px solid rgba(201,168,76,0.2)",
-            boxShadow: "0 2px 16px rgba(26,58,74,0.06)",
+            background: "#FDFAF5",
+            border: "1px solid rgba(201,168,76,0.25)",
+            boxShadow: "0 4px 32px rgba(26,58,74,0.07)",
           }}
           whileHover={{ y: -2, boxShadow: "0 8px 28px rgba(58,155,155,0.12)" }}
           transition={{ duration: 0.2 }}
         >
+          {/* Franja superior dorada */}
+          <div className="h-0.5 w-full" style={{
+            background: "linear-gradient(to right, transparent, #C9A84C, #E8896A, #C9A84C, transparent)"
+          }} />
+
+          {/* Corner accents – turquesa */}
+          <div className="relative">
+            <div className="absolute top-0 left-0 w-5 h-5" style={{ borderTop: "1.5px solid rgba(58,155,155,0.5)", borderLeft: "1.5px solid rgba(58,155,155,0.5)" }} />
+            <div className="absolute top-0 right-0 w-5 h-5" style={{ borderTop: "1.5px solid rgba(58,155,155,0.5)", borderRight: "1.5px solid rgba(58,155,155,0.5)" }} />
+            <div className="absolute bottom-0 left-0 w-5 h-5" style={{ borderBottom: "1.5px solid rgba(58,155,155,0.5)", borderLeft: "1.5px solid rgba(58,155,155,0.5)" }} />
+            <div className="absolute bottom-0 right-0 w-5 h-5" style={{ borderBottom: "1.5px solid rgba(58,155,155,0.5)", borderRight: "1.5px solid rgba(58,155,155,0.5)" }} />
+
           <div className="p-5">
             <h3 className="font-playfair text-lg font-bold mb-1" style={{ color: "#1A3A4A" }}>
               {item.titulo}
@@ -193,6 +206,12 @@ function TimelineItem({ item, index, isLast }) {
               </div>
             </>
           )}
+          </div>{/* cierra .relative de corner accents */}
+
+          {/* Franja inferior turquesa */}
+          <div className="h-0.5 w-full" style={{
+            background: "linear-gradient(to right, transparent, #3A9B9B, #6ABFBF, #3A9B9B, transparent)"
+          }} />
         </motion.div>
       </div>
     </motion.div>
