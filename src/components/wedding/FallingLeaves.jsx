@@ -3,11 +3,6 @@ import { motion } from "framer-motion";
 
 const COLORS = ["#C9A84C", "#E8896A"];
 
-const LEAF_PATH =
-  "M12 2C8 2 4 6 2 10c-1 2-1 5 0 7 1 2 3 4 5 5 2 1 4 1 5 0 1 1 3 1 5 0 2-1 4-3 5-5 1-2 1-5 0-7C20 6 16 2 12 2Z";
-
-const LEAF_STEM = "M12 2v10l3 3";
-
 function Leaf({ color, x, size, duration, delay }) {
   return (
     <motion.div
@@ -15,7 +10,7 @@ function Leaf({ color, x, size, duration, delay }) {
       style={{ left: x, top: -size }}
       animate={{
         y: [`0vh`, `110vh`],
-        x: [0, 15, -10, 8, -5, 0],
+        x: [0, 10, -8, 6, -4, 0],
         rotate: [0, 360],
       }}
       transition={{
@@ -31,29 +26,52 @@ function Leaf({ color, x, size, duration, delay }) {
       }}
     >
       <svg
-        width={size}
+        width={size * 0.625}
         height={size}
-        viewBox="0 0 24 24"
+        viewBox="0 0 20 32"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <path d={LEAF_PATH} fill={color} opacity={0.7} />
-        <path d={LEAF_PATH} fill="none" stroke={color} strokeWidth="0.5" opacity={0.4} />
-        <path d={LEAF_STEM} fill="none" stroke={color} strokeWidth="0.8" opacity={0.5} />
+        <path
+          d="M10 2 C18 8 18 20 10 28 C2 20 2 8 10 2Z"
+          fill={color}
+          opacity={0.65}
+        />
+        <path
+          d="M10 2 C18 8 18 20 10 28 C2 20 2 8 10 2Z"
+          fill="none"
+          stroke={color}
+          strokeWidth="0.4"
+          opacity={0.5}
+        />
+        <path d="M10 2 L10 28" stroke={color} strokeWidth="0.5" opacity={0.5} />
+        <path
+          d="M10 6 L14 10M10 10 L15 14M10 14 L16 18M10 18 L14 22M10 22 L13 25"
+          stroke={color}
+          strokeWidth="0.3"
+          opacity={0.35}
+        />
+        <path
+          d="M10 6 L6 10M10 10 L5 14M10 14 L4 18M10 18 L6 22M10 22 L7 25"
+          stroke={color}
+          strokeWidth="0.3"
+          opacity={0.35}
+        />
+        <path d="M10 28 L10 32" stroke={color} strokeWidth="0.8" opacity={0.5} />
       </svg>
     </motion.div>
   );
 }
 
-export default function FallingLeaves({ count = 12 }) {
+export default function FallingLeaves({ count = 8 }) {
   const leaves = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       color: COLORS[i % COLORS.length],
       x: `${Math.random() * 100}vw`,
-      size: 16 + Math.random() * 12,
-      duration: 15 + Math.random() * 10,
-      delay: Math.random() * -20,
+      size: 24 + Math.random() * 12,
+      duration: 20 + Math.random() * 10,
+      delay: Math.random() * -25,
     }));
   }, [count]);
 
