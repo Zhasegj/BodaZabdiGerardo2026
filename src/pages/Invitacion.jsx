@@ -83,9 +83,9 @@ export default function Invitacion() {
         <HeroSection />
       </AnimatedSection>
 
-      <AnimatedSection offsetY={20}>
-        <PhotoDivider index={0} />
-      </AnimatedSection>
+      {/* PhotoDivider sin AnimatedSection — background-attachment:fixed
+          se rompe si hay un ancestro con opacity/transform animado */}
+      <PhotoDivider index={0} />
 
       <AnimatedSection offsetY={16}>
         <FloralDivider />
@@ -95,21 +95,13 @@ export default function Invitacion() {
         <ProgramaSection />
       </AnimatedSection>
 
-      <AnimatedSection offsetY={20}>
-        <PhotoDivider index={1} />
-      </AnimatedSection>
-
-      <AnimatedSection offsetY={16}>
-        <FloralDivider />
-      </AnimatedSection>
+      <PhotoDivider index={1} />
 
       <AnimatedSection offsetY={28}>
         <RSVPSection />
       </AnimatedSection>
 
-      <AnimatedSection offsetY={20}>
-        <PhotoDivider index={2} />
-      </AnimatedSection>
+      <PhotoDivider index={2} />
 
       {/* Footer: sin animación de salida (es la última sección) */}
       <AnimatedSection offsetY={20} fadeOut={false}>
