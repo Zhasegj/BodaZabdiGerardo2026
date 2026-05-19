@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+import AudioPlayer from "@/components/wedding/AudioPlayer";
 import HeroSection from "@/components/wedding/HeroSection";
 import ProgramaSection from "@/components/wedding/ProgramaSection";
 import RSVPSection from "@/components/wedding/RSVPSection";
@@ -76,6 +77,7 @@ function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
 export default function Invitacion() {
   return (
     <div className="font-sans relative">
+      <AudioPlayer />
       <BackgroundWaves />
 
       {/* Hero: solo animación de salida (la entrada ya la hace con animate={}) */}
