@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 
 // Paleta – teal:#3A9B9B  tealLight:#6ABFBF  sand:#F5ECD7  navy:#1A3A4A  gold:#C9A84C
 
@@ -40,6 +40,13 @@ export default function PhotoDivider({ index = 0 }) {
   const captionOp = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0]);
   const captionY  = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [16, 0, 0, -16]);
 
+  // Blur: 0 en los extremos → máximo (4px) en el centro
+  const blurVal     = useTransform(scrollYProgress, [0, 0.35, 0.5, 0.65, 1], [0, 0, 4, 0, 0]);
+  const backdropStr = useMotionTemplate`blur(${blurVal}px)`;
+
+  // Opacidad del fondo de la cápsula: más transparente en extremos, sólido en centro
+  const bgOpacity = useTransform(scrollYProgress, [0, 0.35, 0.5, 0.65, 1], [0, 0, 0.52, 0, 0]);
+
   return (
     // Contenedor con aspect-ratio cuadrado — igual en todos los dispositivos
     <div
@@ -79,13 +86,13 @@ export default function PhotoDivider({ index = 0 }) {
         className="absolute inset-0 flex flex-col items-center justify-center px-6"
         style={{ opacity: captionOp, y: captionY }}
       >
-        {/* Cápsula oscura detrás del texto — garantiza legibilidad sobre cualquier foto */}
-        <div
+        {/* Cápsula oscura — blur y fondo crecen hasta el centro y decrecen al salir */}
+        <motion.div
           className="flex flex-col items-center px-6 py-4 rounded-sm"
           style={{
-            background: "rgba(26,58,74,0.52)",
-            backdropFilter: "blur(4px)",
-            WebkitBackdropFilter: "blur(4px)",
+            background: useMotionTemplate`rgba(26,58,74,${bgOpacity})`,
+            backdropFilter: backdropStr,
+            WebkitBackdropFilter: backdropStr,
             border: "1px solid rgba(255,255,255,0.12)",
           }}
         >
@@ -118,7 +125,7 @@ export default function PhotoDivider({ index = 0 }) {
             </svg>
             <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.8)" }} />
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );
