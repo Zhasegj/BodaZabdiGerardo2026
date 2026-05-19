@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import AudioPlayer from "@/components/wedding/AudioPlayer";
@@ -77,13 +77,16 @@ function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
 }
 
 export default function Invitacion() {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [overlayDone, setOverlayDone] = useState(false);
+  const audioRef = useRef(null);
 
   return (
     <div className="font-sans relative">
-      <AudioPlayer forcePlay={isPlaying} showButton={overlayDone} />
-      <SealOverlay onPlay={() => setIsPlaying(true)} onExitComplete={() => setOverlayDone(true)} />
+      <AudioPlayer ref={audioRef} showButton={overlayDone} />
+      <SealOverlay
+        onPlay={() => audioRef.current?.start()}
+        onExitComplete={() => setOverlayDone(true)}
+      />
       <BackgroundWaves />
       {overlayDone && <FallingLeaves />}
 

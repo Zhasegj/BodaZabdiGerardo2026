@@ -1,39 +1,28 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const AUDIO_SRC = "/audio/cancion.mp3";
 
-export default function AudioPlayer({ forcePlay = false, showButton = true }) {
+const AudioPlayer = forwardRef(function AudioPlayer({ showButton = true }, ref) {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady]     = useState(false);
 
-  const doPlay = useCallback(async () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    try {
-      await audio.play();
-      setPlaying(true);
-    } catch {
-      // Silently fail — user still has the floating button
-    }
-  }, []);
-
-  // Respond to forcePlay from parent (SealOverlay click)
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !forcePlay || playing) return;
-
-    audio.volume = 0.5;
-
-    if (audio.readyState >= 2) {
-      doPlay();
-    } else {
-      audio.addEventListener("canplay", doPlay, { once: true });
-    }
-
-    return () => audio.removeEventListener("canplay", doPlay);
-  }, [forcePlay, doPlay]);
+  useImperativeHandle(ref, () => ({
+    start() {
+      const audio = audioRef.current;
+      if (!audio || playing) return;
+      audio.volume = 0.5;
+      const tryPlay = () => {
+        audio.play().then(() => setPlaying(true)).catch(() => {});
+      };
+      if (audio.readyState >= 2) {
+        tryPlay();
+      } else {
+        audio.addEventListener("canplay", tryPlay, { once: true });
+      }
+    },
+  }));
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -49,7 +38,6 @@ export default function AudioPlayer({ forcePlay = false, showButton = true }) {
 
   return (
     <>
-      {/* Audio element oculto — loop para que suene continuo */}
       <audio
         ref={audioRef}
         src={AUDIO_SRC}
@@ -120,4 +108,6 @@ export default function AudioPlayer({ forcePlay = false, showButton = true }) {
       </AnimatePresence>
     </>
   );
-}
+});
+
+export default AudioPlayer;
