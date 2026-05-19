@@ -60,8 +60,7 @@ export default function PhotoDivider({ index = 0 }) {
           src={photo.url}
           alt="Zabdi & Gerardo"
           className="w-full h-full object-cover"
-          loading="lazy"
-          // Deshabilitar arrastre en móvil
+          loading={index === 0 ? "eager" : "lazy"}
           draggable={false}
           style={{ userSelect: "none", WebkitUserDrag: "none" }}
         />
@@ -80,38 +79,45 @@ export default function PhotoDivider({ index = 0 }) {
         className="absolute inset-0 flex flex-col items-center justify-center px-6"
         style={{ opacity: captionOp, y: captionY }}
       >
-        <div className="flex items-center gap-3 mb-3">
-          <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.7)" }} />
-          <span
-            className="font-cormorant text-[11px] tracking-[0.28em] uppercase whitespace-nowrap font-semibold"
-            style={{
-              color: "#ffffff",
-              textShadow: "0 1px 8px rgba(26,58,74,0.8)",
-            }}
-          >
-            Zabdi &amp; Gerardo
-          </span>
-          <div className="h-px w-10" style={{ background: "rgba(255,255,255,0.7)" }} />
-        </div>
-
-        <p
-          className="font-vibes text-center leading-tight"
+        {/* Cápsula oscura detrás del texto — garantiza legibilidad sobre cualquier foto */}
+        <div
+          className="flex flex-col items-center px-6 py-4 rounded-sm"
           style={{
-            color: "#FDF8EE",
-            fontSize: "clamp(2rem, 9vw, 3.8rem)",
-            textShadow: "0 2px 16px rgba(26,58,74,0.6)",
+            background: "rgba(26,58,74,0.52)",
+            backdropFilter: "blur(4px)",
+            WebkitBackdropFilter: "blur(4px)",
+            border: "1px solid rgba(255,255,255,0.12)",
           }}
         >
-          {photo.caption}
-        </p>
+          <div className="flex items-center gap-3 mb-2.5">
+            <div className="h-px w-8" style={{ background: "rgba(106,191,191,0.9)" }} />
+            <span
+              className="font-cormorant text-[11px] tracking-[0.28em] uppercase whitespace-nowrap font-semibold"
+              style={{ color: "#6ABFBF" }}
+            >
+              Zabdi &amp; Gerardo
+            </span>
+            <div className="h-px w-8" style={{ background: "rgba(106,191,191,0.9)" }} />
+          </div>
 
-        <div className="flex items-center gap-2 mt-3">
-          <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.75)" }} />
-          <svg viewBox="0 0 10 10" className="w-2 h-2">
-            <rect x="2" y="2" width="6" height="6" transform="rotate(45 5 5)"
-              fill="none" stroke="#C9A84C" strokeWidth="1.2" strokeOpacity="0.85"/>
-          </svg>
-          <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.75)" }} />
+          <p
+            className="font-vibes text-center leading-tight"
+            style={{
+              color: "#FDF8EE",
+              fontSize: "clamp(2rem, 9vw, 3.8rem)",
+            }}
+          >
+            {photo.caption}
+          </p>
+
+          <div className="flex items-center gap-2 mt-2.5">
+            <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.8)" }} />
+            <svg viewBox="0 0 10 10" className="w-2 h-2">
+              <rect x="2" y="2" width="6" height="6" transform="rotate(45 5 5)"
+                fill="none" stroke="#C9A84C" strokeWidth="1.2" strokeOpacity="0.9"/>
+            </svg>
+            <div className="h-px w-8" style={{ background: "rgba(201,168,76,0.8)" }} />
+          </div>
         </div>
       </motion.div>
     </div>
