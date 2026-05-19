@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 import AudioPlayer from "@/components/wedding/AudioPlayer";
+import SealOverlay from "@/components/wedding/SealOverlay";
 import HeroSection from "@/components/wedding/HeroSection";
 import ProgramaSection from "@/components/wedding/ProgramaSection";
 import RSVPSection from "@/components/wedding/RSVPSection";
@@ -75,9 +76,12 @@ function AnimatedSection({ children, offsetY = 24, fadeOut = true }) {
 }
 
 export default function Invitacion() {
+  const [isPlaying, setIsPlaying] = useState(false);
+
   return (
     <div className="font-sans relative">
-      <AudioPlayer />
+      <AudioPlayer forcePlay={isPlaying} />
+      <SealOverlay onPlay={() => setIsPlaying(true)} />
       <BackgroundWaves />
 
       {/* Hero: solo animación de salida (la entrada ya la hace con animate={}) */}
