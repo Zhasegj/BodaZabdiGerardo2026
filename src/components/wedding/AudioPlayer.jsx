@@ -13,14 +13,7 @@ const AudioPlayer = forwardRef(function AudioPlayer({ showButton = true }, ref) 
       const audio = audioRef.current;
       if (!audio || playing) return;
       audio.volume = 0.5;
-      const tryPlay = () => {
-        audio.play().then(() => setPlaying(true)).catch(() => {});
-      };
-      if (audio.readyState >= 2) {
-        tryPlay();
-      } else {
-        audio.addEventListener("canplay", tryPlay, { once: true });
-      }
+      audio.play().then(() => setPlaying(true)).catch(() => {});
     },
   }));
 

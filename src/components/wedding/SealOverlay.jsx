@@ -1,41 +1,44 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const sealContent = (
-  <div className="flex flex-col items-center justify-center w-full h-full p-[10%]">
-    <div
-      className="w-full aspect-square rounded-full flex flex-col items-center justify-center gap-2 sm:gap-1.5"
-      style={{
-        background: "radial-gradient(circle at 35% 35%, #D4B85A, #BFA34A 50%, #8A7535)",
-        border: "1.5px solid rgba(255,255,255,0.15)",
-      }}
-    >
-      <span
-        className="font-playfair text-[22px] sm:text-lg font-bold tracking-[0.15em]"
-        style={{
-          color: "#FDF8EE",
-          textShadow: "0 1px 3px rgba(0,0,0,0.3)",
-        }}
-      >
-        Z&amp;G
-      </span>
+function SealContent({ onPlayClick }) {
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full p-[10%]">
       <div
-        className="w-[28%] aspect-square rounded-full flex items-center justify-center"
+        className="w-full aspect-square rounded-full flex flex-col items-center justify-center gap-2 sm:gap-1.5"
         style={{
-          background: "linear-gradient(135deg, #3A9B9B, #1A3A4A)",
-          border: "2px solid rgba(255,255,255,0.25)",
-          boxShadow: "0 0 20px rgba(58,155,155,0.4)",
+          background: "radial-gradient(circle at 35% 35%, #D4B85A, #BFA34A 50%, #8A7535)",
+          border: "1.5px solid rgba(255,255,255,0.15)",
         }}
       >
-        <svg viewBox="0 0 24 24" className="w-3/5 h-3/5" fill="white">
-          <path d="M8 5.14v14l11-7-11-7z"/>
-        </svg>
+        <span
+          className="font-playfair text-[22px] sm:text-lg font-bold tracking-[0.15em]"
+          style={{
+            color: "#FDF8EE",
+            textShadow: "0 1px 3px rgba(0,0,0,0.3)",
+          }}
+        >
+          Z&amp;G
+        </span>
+        <div
+          className="w-[28%] aspect-square rounded-full flex items-center justify-center cursor-pointer"
+          onClick={onPlayClick}
+          style={{
+            background: "linear-gradient(135deg, #3A9B9B, #1A3A4A)",
+            border: "2px solid rgba(255,255,255,0.25)",
+            boxShadow: "0 0 20px rgba(58,155,155,0.4)",
+          }}
+        >
+          <svg viewBox="0 0 24 24" className="w-3/5 h-3/5" fill="white">
+            <path d="M8 5.14v14l11-7-11-7z"/>
+          </svg>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
-function SealHalf({ side, exitX, exitRotate }) {
+function SealHalf({ side, exitX, exitRotate, onPlayClick }) {
   return (
     <motion.div
       className="absolute inset-0 flex items-center justify-center"
@@ -48,7 +51,7 @@ function SealHalf({ side, exitX, exitRotate }) {
           : "inset(0 0 0 50%)",
       }}
     >
-      {sealContent}
+      <SealContent onPlayClick={onPlayClick} />
     </motion.div>
   );
 }
@@ -77,16 +80,15 @@ export default function SealOverlay({ onPlay, onExitComplete }) {
         >
           {/* Wax seal */}
           <div
-            className="relative w-[200px] h-[200px] sm:w-[160px] sm:h-[160px] rounded-full cursor-pointer"
-            onClick={handleClick}
+            className="relative w-[200px] h-[200px] sm:w-[160px] sm:h-[160px] rounded-full"
             style={{
               background: "radial-gradient(circle at 35% 35%, #E8C96A, #C9A84C 40%, #A68A3E 70%, #7A6430)",
               boxShadow:
                 "0 8px 40px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.3), 0 0 60px rgba(201,168,76,0.3)",
             }}
           >
-            <SealHalf side="left" exitX="-100vw" exitRotate={-10} />
-            <SealHalf side="right" exitX="100vw" exitRotate={10} />
+            <SealHalf side="left" exitX="-100vw" exitRotate={-10} onPlayClick={handleClick} />
+            <SealHalf side="right" exitX="100vw" exitRotate={10} onPlayClick={handleClick} />
           </div>
 
           {/* Text below seal */}
@@ -94,7 +96,7 @@ export default function SealOverlay({ onPlay, onExitComplete }) {
             className="font-cormorant text-lg sm:text-base tracking-[0.4em] uppercase mt-8 sm:mt-6"
             style={{ color: "#F5ECD7" }}
           >
-            Toca para descubrir
+            Toca el botón para descubrir
           </p>
           <p
             className="font-cormorant text-sm tracking-widest mt-1"
