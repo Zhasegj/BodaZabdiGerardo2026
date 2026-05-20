@@ -22,13 +22,14 @@ function writeRSVPs(data) {
   writeFileSync(RSVPS_FILE, JSON.stringify(data, null, 2));
 }
 
-app.post('/api/rsvp', (req, res) => {
+app.post('/api/rsvp', async (req, res) => { // <--- Agregamos 'async' aquí
   try {
-    const { nombre, asistencia } = req.body;
+    const { nombre, asistencia, email, acompanantes, mensaje } = req.body;
     if (!nombre || !asistencia) {
       return res.status(400).json({ error: 'nombre y asistencia son requeridos' });
     }
 
+    // 1. Tu lógica original: Guarda en el archivo JSON local
     const rsvps = readRSVPs();
     const newRSVP = {
       id: Date.now().toString(),
@@ -38,8 +39,27 @@ app.post('/api/rsvp', (req, res) => {
     rsvps.push(newRSVP);
     writeRSVPs(rsvps);
 
+    // 2. NUEVA LÓGICA: Enviar una copia a Make en segundo plano
+    const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/jmviwtev46tld38xqmajadjw5qfn8jkj"; // <--- PEGA TU URL DE MAKE AQUÍ
+    
+    // Usamos un fetch asíncrono para enviar los datos a tu Google Sheets
+    fetch(MAKE_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre,
+        email: email || "No proporcionado",
+        asistencia,
+        acompanantes: acompanantes || 0,
+        mensaje: mensaje || ""
+      })
+    }).catch(err => console.error("Error enviando a Make/Google Sheets:", err)); 
+    // El .catch evita que si Make falla, la app del usuario se quede trabada.
+
+    // 3. Respuesta original al cliente
     res.status(201).json({ success: true, data: newRSVP });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error al guardar RSVP' });
   }
 });

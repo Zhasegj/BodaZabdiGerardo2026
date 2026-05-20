@@ -13,5 +13,14 @@
     "acompanantes": 1,
     "mensaje": "Enhorabuena",
     "createdAt": "2026-05-18T20:43:04.895Z"
+  },
+  {
+    "id": "1779254084778",
+    "nombre": "Gerardo",
+    "email": "gerardojsaseg@hotmail.com",
+    "asistencia": "No podré asistir",
+    "acompanantes": 0,
+    "mensaje": "Lo siento",
+    "createdAt": "2026-05-20T05:14:44.778Z"
   }
 ]
