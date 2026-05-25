@@ -242,6 +242,28 @@ function DayGroup({ grupo, groupIndex }) {
   );
 }
 
+function ScrollButton() {
+  return (
+    <motion.div
+      className="text-center mt-10"
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      viewport={{ once: true }}
+    >
+      <motion.button
+        onClick={() => document.getElementById("rsvp")?.scrollIntoView({ behavior: "smooth" })}
+        className="font-cormorant px-8 py-2.5 text-sm tracking-widest uppercase transition-all duration-300"
+        style={{ border: "1px solid #C9A84C", color: "#C9A84C", background: "transparent" }}
+        whileHover={{ scale: 1.04, backgroundColor: "#E8896A", borderColor: "#E8896A", color: "#fff" }}
+        whileTap={{ scale: 0.97 }}
+      >
+        Confirmar asistencia
+      </motion.button>
+    </motion.div>
+  );
+}
+
 export default function ProgramaSection() {
   return (
     <section id="programa" className="py-16 px-4" style={{ background: "#F5ECD7" }}>
@@ -274,6 +296,8 @@ export default function ProgramaSection() {
         {eventos.map((grupo, i) => (
           <DayGroup key={grupo.dia} grupo={grupo} groupIndex={i} />
         ))}
+
+        <ScrollButton />
 
       </div>
     </section>
