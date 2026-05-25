@@ -171,6 +171,30 @@ function BeachWaves() {
   );
 }
 
+/* ── Flecha doble indicadora de scroll ── */
+function DoubleChevron() {
+  return (
+    <motion.div
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 cursor-pointer"
+      animate={{ y: [0, -6, 0] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      whileTap={{ scale: 0.92 }}
+      onClick={() => document.getElementById("programa")?.scrollIntoView({ behavior: "smooth" })}
+    >
+      <svg viewBox="0 0 24 28" className="w-6 h-7" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="chevGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#C9A84C" />
+            <stop offset="100%" stopColor="#E8896A" />
+          </linearGradient>
+        </defs>
+        <polyline points="4,10 12,18 20,10" stroke="url(#chevGrad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <polyline points="6,16 12,22 18,16" stroke="url(#chevGrad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </motion.div>
+  );
+}
+
 /* ── Fondo de malla cálida ── */
 function BackgroundMesh() {
   return (
@@ -317,6 +341,8 @@ export default function HeroSection() {
       >
         Ver detalles
       </motion.a>
+
+      <DoubleChevron />
     </section>
   );
 }
