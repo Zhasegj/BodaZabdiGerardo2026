@@ -62,18 +62,6 @@ const eventos = [
       },
     ],
   },
-  {
-    dia: "Domingo · 30 de Agosto",
-    items: [
-      {
-        hora: "9:00 am",
-        titulo: "Brunch de despedida",
-        Icon: IconBrunch,
-        descripcion: "Desayuno y despedida en la playa",
-        dressCode: "Ropa de playa",
-      },
-    ],
-  },
 ];
 
 function TimelineItem({ item, index, isLast }) {
